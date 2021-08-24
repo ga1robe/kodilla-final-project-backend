@@ -15,12 +15,10 @@ import java.util.List;
 public class Trail {
     private String begin;
     private String end;
-    private Integer lowDistance;
-    private Integer highDistance;
+    private Integer distance;
     private BigInteger totalApproaches;
     private BigInteger totalDepartures;
-    private Integer lowTransmissionTime;
-    private Integer highTransmissionTime;
+    private Integer transmissionTime;
     private String trailColor;
 
     @Override
@@ -28,10 +26,10 @@ public class Trail {
         return "Hiking Trail{" +
                 "BEGINNING='" + begin + '\'' +
                 ", END='" + end + '\'' +
-                ", DISTANCE=" + lowDistance + " km / " + highDistance + " km " +
+                ", DISTANCE=" + distance + " km" +
                 ", TOTAL APPROACHES=" + totalApproaches + " m" +
                 ", TOTAL DEPARTURES=" + totalDepartures + " m" +
-                ", TRANSMISSION TIME=" + lowTransmissionTime + "-" + highTransmissionTime + " hours" +
+                ", TRANSMISSION TIME=" + transmissionTime + " hours" +
                 ", COLOR OF TRAIL=" + trailColor +
                 '}';
     }
