@@ -1,7 +1,7 @@
 package com.crud.finalbackend.service;
 
 import com.crud.finalbackend.domain.HikingTrailConnectionWithWeather;
-import com.crud.finalbackend.domain.NotificationPreference;
+import com.crud.finalbackend.domain.Preference;
 import com.crud.finalbackend.domain.HikingTrailRequest;
 import com.crud.finalbackend.domain.TrailOffer;
 import com.crud.finalbackend.domain.dto.HikingTrailDto;
@@ -28,7 +28,7 @@ import java.util.*;
 @AllArgsConstructor
 public class SeasonalTrailOffersService {
     private final TrailSearchRequestService requestService;
-    private final NotificationPreferenceService notificationPreferenceService;
+    private final PreferenceService notificationPreferenceService;
     private final HereApiFacade hereApiFacade;
     private final WeatherClientFacade weatherClientFacade;
 
@@ -44,7 +44,7 @@ public class SeasonalTrailOffersService {
      * @param allPreferences a list of customers' preferences to work on
      * @return
      */
-    private Set<String> getAllTrailsFromPreferences(List<NotificationPreference> allPreferences) {
+    private Set<String> getAllTrailsFromPreferences(List<Preference> allPreferences) {
         Set<String> trails = new HashSet<>();
         allPreferences.forEach(e -> {
             trails.add( e.getTrailBegin() );
@@ -93,7 +93,7 @@ public class SeasonalTrailOffersService {
      * @param trailsAndPoints
      * @return
      */
-    private Set<HikingTrailRequest> getSearchRequestsForPreference (NotificationPreference preference, Map<String, List<Double>> trailsAndPoints) {
+    private Set<HikingTrailRequest> getSearchRequestsForPreference (Preference preference, Map<String, List<Double>> trailsAndPoints) {
         Set<HikingTrailRequest> requestsForPreference = new HashSet<>();
         List<Double> departurePoints = trailsAndPoints.get( preference.getTrailBegin() );
         List<Double> destinationPoints = trailsAndPoints.get( preference.getTrailEnd() );
@@ -134,7 +134,7 @@ public class SeasonalTrailOffersService {
     public Set<HikingTrailRequest> getAllSearchRequests() {
         Set<HikingTrailRequest> uniqueSearchRequestsForPreferenfces = new HashSet<>();
 
-        List<NotificationPreference> allPreferences = notificationPreferenceService.getAllPreferences();
+        List<Preference> allPreferences = notificationPreferenceService.getAllPreferences();
         Set<String> trails = getAllTrailsFromPreferences(allPreferences);
         Map<String, List<Double>> trailsAndPoints = getPointGeocodeForPreferredTrails(trails);
 
@@ -218,13 +218,13 @@ public class SeasonalTrailOffersService {
      *
      * @return
      */
-    public Map<NotificationPreference, TrailOffer> getPreferencesAndOffers() {
+    public Map<Preference, TrailOffer> getPreferencesAndOffers() {
         log.info("Matching preferences with avaiable connections...");
-        Map<NotificationPreference, TrailOffer> preferencesAndOffers = new HashMap<>();
-        List<NotificationPreference> preferences = notificationPreferenceService.getAllPreferences();
+        Map<Preference, TrailOffer> preferencesAndOffers = new HashMap<>();
+        List<Preference> preferences = notificationPreferenceService.getAllPreferences();
         List<HikingTrailConnectionWithWeather> offers = getAllHikingTrailOffersWithExpectedWeather();
 
-        for(NotificationPreference preference : preferences) {
+        for(Preference preference : preferences) {
             log.info("Processing preference: " + preference);
             Optional<HikingTrailConnectionWithWeather> cheapestThereHikingTrail = offers.stream()
                     .filter(offer -> offer.getTrail().getDestinationPoint().equals( preference.getTrailEnd().toLowerCase() )  )
@@ -249,7 +249,7 @@ public class SeasonalTrailOffersService {
                  * If total cost of both hiking trails (there and return) is lower or equal to max price declared in preference
                  * then create offer of those hiking trails and add to the offer map
                  */
-                if( totalDistance.compareTo( BigInteger.valueOf(preference.getDistance()) ) < 1 ) {
+                if( totalDistance.compareTo( preference.getDistance() ) < 1 ) {
                     log.info("Total price is acceptable, adding to offers");
                     TrailOffer offer = new TrailOffer(thereHikingTrail, returnHikingTrail, totalDistance);
                     preferencesAndOffers.put(preference, offer);

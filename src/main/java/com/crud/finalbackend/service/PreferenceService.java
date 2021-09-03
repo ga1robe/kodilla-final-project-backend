@@ -1,9 +1,10 @@
 package com.crud.finalbackend.service;
 
-import com.crud.finalbackend.domain.NotificationPreference;
+import com.crud.finalbackend.domain.Preference;
 import com.crud.finalbackend.domain.User;
+import com.crud.finalbackend.domain.dto.UserDto;
 import com.crud.finalbackend.except.NotificationPreferenceNotFoundException;
-import com.crud.finalbackend.repository.NotificationPreferenceRepository;
+import com.crud.finalbackend.repository.PreferenceRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,8 +17,8 @@ import java.util.Objects;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class NotificationPreferenceService {
-    private final NotificationPreferenceRepository notificationPreferenceRepository;
+public class PreferenceService {
+    private final PreferenceRepository notificationPreferenceRepository;
     private final UserService userService;
 
     /**
@@ -27,17 +28,17 @@ public class NotificationPreferenceService {
      * @return
      */
     @Transactional
-    public NotificationPreference addPreference(NotificationPreference preference) {
+    public Preference addPreference(Preference preference) {
         notificationPreferenceRepository.save(preference);
-        preference.getUser().getNotificationPreferences().add(preference);
+        preference.getUser().getPreferences().add(preference);
         return preference;
     }
 
-    public NotificationPreference getPreferenceById(Long id) {
+    public Preference getPreferenceById(Long id) {
         return notificationPreferenceRepository.findById(id).orElseThrow(NotificationPreferenceNotFoundException::new);
     }
 
-    public List<NotificationPreference> getAllPreferences() {
+    public List<Preference> getAllPreferences() {
         return notificationPreferenceRepository.findAll();
     }
 
@@ -47,7 +48,7 @@ public class NotificationPreferenceService {
      * @param trailBegin
      * @return
      */
-    public List<NotificationPreference> getAllPreferencesByTrailBegin(String trailBegin) {
+    public List<Preference> getAllPreferencesByTrailBegin(String trailBegin) {
         return notificationPreferenceRepository.findAllByTrailBegin(trailBegin);
     }
 
@@ -57,7 +58,7 @@ public class NotificationPreferenceService {
      * @param trailEnd
      * @return
      */
-    public List<NotificationPreference> getAllPreferencesByTrailEnd(String trailEnd) {
+    public List<Preference> getAllPreferencesByTrailEnd(String trailEnd) {
         return notificationPreferenceRepository.findAllByTrailEnd(trailEnd);
     }
 
@@ -68,7 +69,7 @@ public class NotificationPreferenceService {
      * @param user
      * @return
      */
-    public List<NotificationPreference> getAllPreferencesByUser(User user) {
+    public List<Preference> getAllPreferencesByUser(User user) {
         if( userService.exists(user) ) {
             return notificationPreferenceRepository.findAllByUser(user);
         }else {
@@ -105,7 +106,7 @@ public class NotificationPreferenceService {
      */
     @Transactional
     public void deletePreferenceById(Long id) {
-        NotificationPreference preference = this.getPreferenceById(id);
+        Preference preference = this.getPreferenceById(id);
 
         if(Objects.nonNull( preference.getUser() )) {
             preference.getUser().removePreference(preference);

@@ -1,11 +1,12 @@
 package com.crud.finalbackend.mapper;
 
 
-import com.crud.finalbackend.domain.NotificationPreference;
+import com.crud.finalbackend.domain.Preference;
 import com.crud.finalbackend.domain.User;
+import com.crud.finalbackend.domain.dto.PreferenceDto;
 import com.crud.finalbackend.domain.dto.UserDto;
 import com.crud.finalbackend.domain.dto.UserRegistrationDto;
-import com.crud.finalbackend.service.NotificationPreferenceService;
+import com.crud.finalbackend.service.PreferenceService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 @Component
 @AllArgsConstructor
 public class UserMapper {
-    private final NotificationPreferenceService notificationService;
+    private final PreferenceService notificationService;
 
     public User mapRegistrationDtoToUser(final UserRegistrationDto dto) {
         return User.builder()
@@ -26,7 +27,7 @@ public class UserMapper {
                 .email( dto.getEmail() )
                 .registered( LocalDate.now() )
                 .securePassword( dto.getSecurePassword() )
-                .notificationPreferences( new HashSet<>())
+                .preferences( new HashSet<>())
                 .build();
     }
 
@@ -38,7 +39,7 @@ public class UserMapper {
                 .email( dto.getEmail() )
                 .registered( LocalDate.parse(dto.getRegistered()) )
                 .securePassword( dto.getSecurePassword() )
-                .notificationPreferences(
+                .preferences(
                         dto.getNotificationIds().stream()
                                 .map(notificationService::getPreferenceById)
                                 .collect(Collectors.toSet())
@@ -56,8 +57,8 @@ public class UserMapper {
                 .securePassword( user.getSecurePassword() )
                 .registered( user.getRegistered().toString() )
                 .notificationIds(
-                        user.getNotificationPreferences().stream()
-                                .map(NotificationPreference::getId)
+                        user.getPreferences().stream()
+                                .map(Preference::getId)
                                 .collect(Collectors.toSet())
                 )
                 .build();
@@ -76,4 +77,9 @@ public class UserMapper {
     }
 
 
+    public List<PreferenceDto> mapToPrefrenceDtoList(final List<Preference> preferenceList, PreferenceMapper preferenceMapper) {
+        return preferenceList.stream()
+                .map(preferenceMapper::mapToPreferenceDto)
+                .collect(Collectors.toList());
+    }
 }

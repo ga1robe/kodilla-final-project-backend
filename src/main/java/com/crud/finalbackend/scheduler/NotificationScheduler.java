@@ -25,10 +25,10 @@ public class NotificationScheduler {
 
     private static final String SUBJECT = "New hiking trails matching your preferences";
 
-    private  Map<String, List<String>> groupEmailAndOffers( Map<NotificationPreference, TrailOffer> preferencesAndOffers ) {
+    private  Map<String, List<String>> groupEmailAndOffers( Map<Preference, TrailOffer> preferencesAndOffers ) {
         Map<String, List<String>> result = new HashMap<>();
 
-        for( Map.Entry<NotificationPreference, TrailOffer> entry : preferencesAndOffers.entrySet() ) {
+        for( Map.Entry<Preference, TrailOffer> entry : preferencesAndOffers.entrySet() ) {
             String email = entry.getKey().getUser().getEmail();
             String offer = entry.getValue().toString();
 
@@ -42,7 +42,7 @@ public class NotificationScheduler {
         return result;
     }
 
-    private Map<String, String> getEmailAndOfferMessage( Map<NotificationPreference, TrailOffer> preferencesAndOffers ) {
+    private Map<String, String> getEmailAndOfferMessage( Map<Preference, TrailOffer> preferencesAndOffers ) {
         Map<String, List<String>> emailAndOffers = groupEmailAndOffers(preferencesAndOffers);
         Map<String, String> result = new HashMap<>();
 

@@ -10,11 +10,11 @@ import java.math.BigInteger;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class NotificationPreferenceDto {
+public class PreferenceDto {
     private Long id;
-    private User user;
+    private UserDto userDto;
     private String trailBegin;
     private String trailEnd;
-    private Integer distance;
-    private BigInteger minTemperature;
+    private BigInteger distance;
+    private Integer minTemperature;
 }

@@ -4,9 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.math.BigInteger;
 import java.util.Objects;
 
 @Entity
@@ -16,7 +14,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class NotificationPreference {
+public class Preference {
 
     @Id
     @NotNull
@@ -35,7 +33,7 @@ public class NotificationPreference {
     private String trailEnd;
 
     @NotNull
-    private Integer distance;
+    private BigInteger distance;
 
     @NotNull
     private Integer minTemperature;
@@ -55,8 +53,8 @@ public class NotificationPreference {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof NotificationPreference)) return false;
-        NotificationPreference that = (NotificationPreference) o;
+        if (!(o instanceof Preference)) return false;
+        Preference that = (Preference) o;
         return Objects.equals(getId(), that.getId()) && Objects.equals(getUser(), that.getUser()) && Objects.equals(getTrailBegin(), that.getTrailBegin()) && Objects.equals(getTrailEnd(), that.getTrailEnd()) && Objects.equals(getDistance(), that.getDistance()) && Objects.equals(getMinTemperature(), that.getMinTemperature());
     }
 

@@ -42,26 +42,26 @@ public class User {
     private LocalDate registered;
 
     @NotNull
-    @Column(name="NOTIFICATION_PREFERENCES")
+    @Column(name="PREFERENCES")
     @OneToMany(
-            targetEntity = NotificationPreference.class,
+            targetEntity = Preference.class,
             mappedBy = "user",
             orphanRemoval = true,
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER
     )
-    private Set<NotificationPreference> notificationPreferences;
+    private Set<Preference> preferences;
 
-    public void addPreference(NotificationPreference preference) {
-        notificationPreferences.add(preference);
+    public void addPreference(Preference preference) {
+        preferences.add(preference);
     }
 
-    public void removePreference(NotificationPreference preference) {
-        notificationPreferences.remove(preference);
+    public void removePreference(Preference preference) {
+        preferences.remove(preference);
     }
 
     public void removeAllPreferences() {
-        notificationPreferences.clear();
+        preferences.clear();
     }
 
     @Override
@@ -69,11 +69,11 @@ public class User {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        return Objects.equals(getId(), user.getId()) && Objects.equals(getName(), user.getName()) && Objects.equals(getSurname(), user.getSurname()) && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getSecurePassword(), user.getSecurePassword()) && Objects.equals(getRegistered(), user.getRegistered()) && Objects.equals(getNotificationPreferences(), user.getNotificationPreferences());
+        return Objects.equals(getId(), user.getId()) && Objects.equals(getName(), user.getName()) && Objects.equals(getSurname(), user.getSurname()) && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getSecurePassword(), user.getSecurePassword()) && Objects.equals(getRegistered(), user.getRegistered()) && Objects.equals(getPreferences(), user.getPreferences());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getSurname(), getEmail(), getSecurePassword(), getRegistered(), getNotificationPreferences());
+        return Objects.hash(getId(), getName(), getSurname(), getEmail(), getSecurePassword(), getRegistered(), getPreferences());
     }
 }

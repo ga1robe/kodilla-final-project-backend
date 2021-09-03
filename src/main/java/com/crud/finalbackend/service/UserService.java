@@ -1,6 +1,7 @@
 package com.crud.finalbackend.service;
 
 import com.crud.finalbackend.domain.ServiceUsageRecord;
+import com.crud.finalbackend.domain.dto.UserDto;
 import com.crud.finalbackend.except.UserEmailAlreadyExistsException;
 import com.crud.finalbackend.except.UserNotFoundException;
 import com.crud.finalbackend.domain.User;

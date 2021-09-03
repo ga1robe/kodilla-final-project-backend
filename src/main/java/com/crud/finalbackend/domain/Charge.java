@@ -33,7 +33,7 @@ public class Charge {
     @Null
     private LocalDate chargeDate;
 
-    public boolean isPaymentDate() {
+    public boolean isChargeDate() {
         return !(chargeDate==null);
     }
 
