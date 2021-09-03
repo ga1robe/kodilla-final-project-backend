@@ -10,9 +10,14 @@ import java.math.BigDecimal;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TrailOfferConnectionWithWeather {
-    private Trail trail;
+public class HikingTrailConnectionWithWeather {
+    private HikingTrail trail;
     private BigDecimal expectedTemperature;
+
+//    @Override
+    public int compareTo(HikingTrailConnectionWithWeather other) {
+        return this.getTrail().getDistance().compareTo(other.getTrail().getDistance());
+    }
 
     @Override
     public String toString() {
