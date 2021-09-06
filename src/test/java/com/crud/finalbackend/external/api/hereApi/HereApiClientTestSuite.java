@@ -53,7 +53,7 @@ class HereApiClientTestSuite {
         //Given
         LocationDto departure = new LocationDto(1L, "departure", "PL", 52.268164, 20.463206);
         LocationDto destination = new LocationDto(2L, "destination", "PL", 52.262327, 20.677063);
-        HikingTrailDto hikingTrail = new HikingTrailDto(departure, destination, "Kampinos", "Zaborow", null, null, ChargeStatus.FREE);
+        HikingTrailDto hikingTrail = new HikingTrailDto(departure, destination, "Kampinos", "Zaborow", ChargeStatus.FREE);
         //When
         Integer length = hereApiClient.searchRouteLength(hikingTrail);
         System.out.println("Route length: " + length);

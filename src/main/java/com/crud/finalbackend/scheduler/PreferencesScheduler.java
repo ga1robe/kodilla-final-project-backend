@@ -17,7 +17,7 @@ import java.util.Map;
 @Component
 @AllArgsConstructor
 @Slf4j
-public class NotificationScheduler {
+public class PreferencesScheduler {
     private final SimpleEmailService simpleEmailService;
     private final AdminConfig adminConfig;
     private final SeasonalTrailOffersService offersCreator;

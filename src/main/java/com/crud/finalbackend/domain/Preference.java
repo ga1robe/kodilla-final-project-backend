@@ -58,8 +58,8 @@ public class Preference {
         return Objects.equals(getId(), that.getId()) && Objects.equals(getUser(), that.getUser()) && Objects.equals(getTrailBegin(), that.getTrailBegin()) && Objects.equals(getTrailEnd(), that.getTrailEnd()) && Objects.equals(getDistance(), that.getDistance()) && Objects.equals(getMinTemperature(), that.getMinTemperature());
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getUser(), getTrailBegin(), getTrailEnd(), getDistance(), getMinTemperature());
-    }
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(getId(), getUser(), getTrailBegin(), getTrailEnd(), getDistance(), getMinTemperature());
+//    }
 }

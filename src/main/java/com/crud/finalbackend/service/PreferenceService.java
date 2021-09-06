@@ -2,8 +2,7 @@ package com.crud.finalbackend.service;
 
 import com.crud.finalbackend.domain.Preference;
 import com.crud.finalbackend.domain.User;
-import com.crud.finalbackend.domain.dto.UserDto;
-import com.crud.finalbackend.except.NotificationPreferenceNotFoundException;
+import com.crud.finalbackend.except.PreferenceNotFoundException;
 import com.crud.finalbackend.repository.PreferenceRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +17,7 @@ import java.util.Objects;
 @Service
 @AllArgsConstructor
 public class PreferenceService {
-    private final PreferenceRepository notificationPreferenceRepository;
+    private final PreferenceRepository preferenceRepository;
     private final UserService userService;
 
     /**
@@ -29,17 +28,17 @@ public class PreferenceService {
      */
     @Transactional
     public Preference addPreference(Preference preference) {
-        notificationPreferenceRepository.save(preference);
+        preferenceRepository.save(preference);
         preference.getUser().getPreferences().add(preference);
         return preference;
     }
 
     public Preference getPreferenceById(Long id) {
-        return notificationPreferenceRepository.findById(id).orElseThrow(NotificationPreferenceNotFoundException::new);
+        return preferenceRepository.findById(id).orElseThrow(PreferenceNotFoundException::new);
     }
 
     public List<Preference> getAllPreferences() {
-        return notificationPreferenceRepository.findAll();
+        return preferenceRepository.findAll();
     }
 
     /**
@@ -49,7 +48,7 @@ public class PreferenceService {
      * @return
      */
     public List<Preference> getAllPreferencesByTrailBegin(String trailBegin) {
-        return notificationPreferenceRepository.findAllByTrailBegin(trailBegin);
+        return preferenceRepository.findAllByTrailBegin(trailBegin);
     }
 
     /**
@@ -59,7 +58,7 @@ public class PreferenceService {
      * @return
      */
     public List<Preference> getAllPreferencesByTrailEnd(String trailEnd) {
-        return notificationPreferenceRepository.findAllByTrailEnd(trailEnd);
+        return preferenceRepository.findAllByTrailEnd(trailEnd);
     }
 
     /**
@@ -71,7 +70,7 @@ public class PreferenceService {
      */
     public List<Preference> getAllPreferencesByUser(User user) {
         if( userService.exists(user) ) {
-            return notificationPreferenceRepository.findAllByUser(user);
+            return preferenceRepository.findAllByUser(user);
         }else {
             log.error("Attempting to load preferences of unsaved User: returning empty list");
             return new ArrayList<>();
@@ -111,7 +110,7 @@ public class PreferenceService {
         if(Objects.nonNull( preference.getUser() )) {
             preference.getUser().removePreference(preference);
         } else {
-            notificationPreferenceRepository.deleteById(id);
+            preferenceRepository.deleteById(id);
         }
     }
 }

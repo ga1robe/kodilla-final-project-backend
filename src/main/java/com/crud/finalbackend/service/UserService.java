@@ -53,6 +53,7 @@ public class UserService {
         }
 
         ServiceUsageRecord record = ServiceUsageRecord.builder()
+                .id(user.getId())
                 .whenExecuted(LocalDateTime.now())
                 .serviceClass(this.getClass().getName())
                 .methodArgument("user")

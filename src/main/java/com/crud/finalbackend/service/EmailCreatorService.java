@@ -29,7 +29,7 @@ public class EmailCreatorService {
         context.setVariable("goodbye_message", "Have a nice day");
         context.setVariable("show_button", true);
         context.setVariable("is_after_12", isAfterNoon());
-        context.setVariable("company_details", "Company: weekend flights");
+        context.setVariable("company_details", "Company: seasonal hiking trails");
         context.setVariable("customer_name", "TEST NAME HERE");
 
         return templateEngine.process("mail/custom-user-notification-mail", context);

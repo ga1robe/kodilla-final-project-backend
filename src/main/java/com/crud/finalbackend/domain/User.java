@@ -72,8 +72,8 @@ public class User {
         return Objects.equals(getId(), user.getId()) && Objects.equals(getName(), user.getName()) && Objects.equals(getSurname(), user.getSurname()) && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getSecurePassword(), user.getSecurePassword()) && Objects.equals(getRegistered(), user.getRegistered()) && Objects.equals(getPreferences(), user.getPreferences());
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getName(), getSurname(), getEmail(), getSecurePassword(), getRegistered(), getPreferences());
-    }
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(getId(), getName(), getSurname(), getEmail(), getSecurePassword(), getRegistered(), getPreferences());
+//    }
 }
