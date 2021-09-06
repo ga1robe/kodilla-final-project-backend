@@ -24,11 +24,6 @@ class UserServiceTestSuite {
     @Autowired
     private PreferenceService preferenceService;
 
-    @Before("")
-    public void cleanUp() {
-        userService.deleteAllUsers();
-    }
-
     @Test
     public void testAddUser() {
         //Given

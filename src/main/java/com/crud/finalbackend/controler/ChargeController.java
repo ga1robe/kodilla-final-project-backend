@@ -22,25 +22,25 @@ public class ChargeController {
     private final ChargeService chargeService;
     private final ChargeMapper chargeMapper;
 
-    @PostMapping("payments")
+    @PostMapping("charges")
     public void addPayment(@RequestBody ChargeDto dto) {
-        chargeService.addPayment( chargeMapper.mapToCharge(dto) );
+        chargeService.addCharge( chargeMapper.mapToCharge(dto) );
     }
 
-    @GetMapping("payments/{id}")
-    public ChargeDto getPayment(@PathVariable("id") Long id) {
-        return chargeMapper.mapToDto( chargeService.getPaymentById(id) );
+    @GetMapping("charges/{id}")
+    public ChargeDto getCharge(@PathVariable("id") Long id) {
+        return chargeMapper.mapToDto( chargeService.getChargeById(id) );
     }
 
     @GetMapping("charges")
-    public ChargeListDto getAllPayments() {
-        return new ChargeListDto( chargeMapper.mapToDtoList( chargeService.getAllPayments()) );
+    public ChargeListDto getAllCharges() {
+        return new ChargeListDto( chargeMapper.mapToDtoList( chargeService.getAllCharges()) );
     }
 
     @PutMapping("charges")
     @Transactional
-    public ChargeDto updatePayment(@RequestBody ChargeDto updatingDto) {
-        Charge charge = chargeService.getPaymentById( updatingDto.getId() );
+    public ChargeDto updateCharge(@RequestBody ChargeDto updatingDto) {
+        Charge charge = chargeService.getChargeById( updatingDto.getId() );
         BigDecimal currentValue = charge.getValue().setScale(2, RoundingMode.HALF_EVEN);
         BigDecimal updatingValue = updatingDto.getValue().setScale(2, RoundingMode.HALF_EVEN);
 
@@ -61,7 +61,7 @@ public class ChargeController {
     public  ChargeListDto getChargesByDate(@RequestParam("date") String date) {
         Pattern datePattern = Pattern.compile("^((19|2[0-9])[0-9]{2})-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$");
         if(datePattern.matcher( date ).matches()) {
-            return new ChargeListDto( chargeMapper.mapToDtoList( chargeService.getPaymentsByDate(LocalDate.parse(date)) ) );
+            return new ChargeListDto( chargeMapper.mapToDtoList( chargeService.getChargesByDate(LocalDate.parse(date)) ) );
         }
         throw new WrongDateFormatException();
     }

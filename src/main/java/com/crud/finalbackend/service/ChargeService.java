@@ -19,36 +19,36 @@ public class ChargeService {
     private final ServiceUsageRecordService recordService;
 
     @Transactional
-    public Charge addPayment(final Charge charge) {
+    public Charge addCharge(final Charge charge) {
         ServiceUsageRecord record = ServiceUsageRecord.builder()
                 .whenExecuted(LocalDateTime.now())
                 .serviceClass(this.getClass().getName())
-                .methodArgument("payment")
+                .methodArgument("charge")
                 .build();
         recordService.addRecord(record);
 
         return chargeRepository.save(charge);
     }
 
-    public Charge getPaymentById(final Long id) {
+    public Charge getChargeById(final Long id) {
         return chargeRepository.findById(id).orElseThrow(ChargeNotFoundException::new);
     }
 
-    public List<Charge> getAllPayments(){
+    public List<Charge> getAllCharges(){
         return chargeRepository.findAll();
     }
 
-    public List<Charge> getPaymentsByDate(final LocalDate date) {
+    public List<Charge> getChargesByDate(final LocalDate date) {
         return chargeRepository.findAllByChargeDate(date);
     }
 
     @Transactional
-    public void deleteAllPayments() {
+    public void deleteAllCharges() {
         chargeRepository.deleteAll();
     }
 
     @Transactional
-    public void deletePaymentById(final Long id) {
+    public void deleteChargeById(final Long id) {
         chargeRepository.deleteById(id);
     }
 }
