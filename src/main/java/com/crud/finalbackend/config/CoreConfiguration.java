@@ -40,7 +40,7 @@ public class CoreConfiguration implements WebMvcConfigurer {
     @Bean
     public WebServerFactoryCustomizer<ConfigurableServletWebServerFactory>
     webServerFactoryCustomizer() {
-        return factory -> factory.setContextPath("/weekendHikings"); // DONE. weekend Hikings
+        return factory -> factory.setContextPath("/seasonaltrails"); // seasonal Hiking Trails
     }
 
     @Bean
@@ -52,7 +52,7 @@ public class CoreConfiguration implements WebMvcConfigurer {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.kodilla.kodillafinalbackend.controler"))
+                .apis(RequestHandlerSelectors.basePackage("com.crud.finalbackend.controler"))
                 .paths(PathSelectors.any())
                 .build();
     }

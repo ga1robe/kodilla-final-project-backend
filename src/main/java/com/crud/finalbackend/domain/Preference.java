@@ -5,10 +5,11 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name="NOTIFICATION_PREFERENCES")
+@Table(name="PREFERENCES")
 @Getter
 @Setter
 @AllArgsConstructor

@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface PreferenceRepository extends CrudRepository<Preference, Long> {
+
     @Override
     Preference save(Preference preference);
 

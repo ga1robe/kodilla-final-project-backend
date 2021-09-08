@@ -2,63 +2,69 @@ package com.crud.finalbackend.controler;
 
 import com.crud.finalbackend.domain.Preference;
 import com.crud.finalbackend.domain.dto.PreferenceDto;
+import com.crud.finalbackend.domain.dto.PreferenceListDto;
+import com.crud.finalbackend.mapper.PreferenceMapper;
 import com.crud.finalbackend.mapper.UserMapper;
-import com.crud.finalbackend.service.UserService;
+import com.crud.finalbackend.repository.PreferenceRepository;
+import com.crud.finalbackend.service.PreferenceService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @Component
+@RequestMapping
 @AllArgsConstructor
 public class PreferenceController {
+    private final PreferenceService preferenceService;
+    private final PreferenceMapper preferenceMapper;
+    private final PreferenceRepository preferenceRepository;
     private final UserMapper userMapper;
-    private final UserService userService;
 
-    public Preference creationDtoToPreference(final PreferenceDto dto) {
-        return Preference.builder()
-                .id( dto.getId() )
-                .trailBegin( dto.getTrailBegin() )
-                .trailEnd( dto.getTrailEnd() )
-                .distance( dto.getDistance() )
-                .minTemperature( dto.getMinTemperature() )
-                .user( userService.getUserById( dto.getUserDto().getId() ) )
-                .build();
-
+    @PostMapping("preferences")
+    public void addPreference(@RequestBody PreferenceDto dto) {
+        preferenceService.addPreference( preferenceMapper.creationDtoToPreference( dto ) );
     }
 
-    public Preference mapToPreference(final PreferenceDto dto) {
-        return Preference.builder()
-                .id( dto.getId() )
-                .trailBegin( dto.getTrailBegin() )
-                .trailEnd( dto.getTrailEnd() )
-                .distance( dto.getDistance() )
-                .minTemperature( dto.getMinTemperature() )
-                .user( userMapper.mapToUser( dto.getUserDto() ) )
-                .build();
+    @PutMapping("preferences")
+    @Transactional
+    public PreferenceDto updatePreference(@RequestBody PreferenceDto updatingDto) {
+        Preference preference = preferenceService.getPreferenceById( updatingDto.getId() );
+
+        if(! preference.getTrailBegin().equals( updatingDto.getTrailBegin() )) {preference.setTrailBegin( updatingDto.getTrailBegin() );}
+        if(! preference.getTrailEnd().equals( updatingDto.getTrailEnd() )) {preference.setTrailEnd( updatingDto.getTrailEnd() );}
+        if(! preference.getUser().equals( userMapper.mapToUser( updatingDto.getUserDto() ) )) {preference.setUser( userMapper.mapToUser( updatingDto.getUserDto() ) );}
+        if(! preference.getDistance().equals( updatingDto.getDistance() ) ) {preference.setDistance( updatingDto.getDistance() );}
+        if(! preference.getMinTemperature().equals( updatingDto.getMinTemperature() )) {preference.setMinTemperature( updatingDto.getMinTemperature() );}
+
+        return preferenceMapper.mapToPreferenceDto( preference );
     }
 
-    public List<Preference> mapToPreferenceList (final List<PreferenceDto> dtoList) {
-        return dtoList.stream()
-                .map(this::mapToPreference)
-                .collect(Collectors.toList());
+    @DeleteMapping("preferences/{id}")
+    public void deletePreference(@PathVariable("id") Long id) {
+        preferenceService.deletePreferenceById(id);
     }
 
-    public PreferenceDto mapToPreferenceDto(final Preference preference) {
-        return PreferenceDto.builder()
-                .id( preference.getId() )
-                .trailBegin( preference.getTrailBegin() )
-                .trailEnd( preference.getTrailEnd() )
-                .distance( preference.getDistance() )
-                .minTemperature( preference.getMinTemperature() )
-                .userDto( userMapper.mapToDto( preference.getUser() ) )
-                .build();
+    @GetMapping("preferences")
+    public PreferenceListDto getPreferences() {
+        return new PreferenceListDto( preferenceMapper.mapToPrefrenceDtoList( preferenceService.getAllPreferences() ) );
     }
 
-    public List<PreferenceDto> mapToPrefrenceDtoList(final List<Preference> preferenceList) {
-        return preferenceList.stream()
-                .map(this::mapToPreferenceDto)
-                .collect(Collectors.toList());
+    @GetMapping("preferences/")
+    public PreferenceListDto getPreferencesByDeparturePoint(@RequestParam("point") String point) {
+        return new PreferenceListDto( preferenceMapper.mapToPrefrenceDtoList( preferenceService.getAllPreferencesByTrailBegin(point) ) );
+    }
+
+    @RequestMapping(value = "preference", method = RequestMethod.GET)
+    public ModelAndView preferences() {
+        ModelAndView mav = new ModelAndView("preferences/list");
+        mav.addObject("preferences", preferenceRepository.findAll());
+        return mav;
+    }
+
+    @GetMapping("preferences/{id}")
+    public PreferenceDto getPreference(@PathVariable("id") Long id) {
+        return preferenceMapper.mapToPreferenceDto( preferenceService.getPreferenceById(id) );
     }
 }

@@ -54,4 +54,10 @@ public class PreferenceMapper {
                 .userDto( userMapper.mapToDto( preference.getUser() ) )
                 .build();
     }
+
+    public List<PreferenceDto> mapToPrefrenceDtoList(final List<Preference> preferenceList) {
+        return preferenceList.stream()
+                .map(this::mapToPreferenceDto)
+                .collect(Collectors.toList());
+    }
 }

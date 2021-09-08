@@ -7,12 +7,13 @@ import com.crud.finalbackend.domain.dto.UserRegistrationDto;
 import com.crud.finalbackend.mapper.UserMapper;
 import com.crud.finalbackend.service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 
 @RestController
-@RequestMapping
+@RequestMapping("/v1/")
 @AllArgsConstructor
 public class UserController {
     private final UserService userService;

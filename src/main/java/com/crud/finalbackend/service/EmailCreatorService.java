@@ -24,15 +24,15 @@ public class EmailCreatorService {
 
         Context context = new Context();
         context.setVariable("message", message);
-        context.setVariable("portal_url", "https://damp-bayou-80913.herokuapp.com/"); //TODO. checking and change.
+        context.setVariable("portal_url", "http://localhost:8080/seasonaltrails/preferences"); //TODO. checking and change.
         context.setVariable("button", "Visit website");
         context.setVariable("goodbye_message", "Have a nice day");
         context.setVariable("show_button", true);
         context.setVariable("is_after_12", isAfterNoon());
-        context.setVariable("company_details", "Company: seasonal hiking trails");
+        context.setVariable("service_details", "Service: seasonal hiking trails");
         context.setVariable("customer_name", "TEST NAME HERE");
 
-        return templateEngine.process("mail/custom-user-notification-mail", context);
+        return templateEngine.process("mail/custom-user-preferences-mail", context);
     }
 
 

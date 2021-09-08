@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Preferences</title>
+</head>
+<body>
+
+<!-- START CENTERED WHITE CONTAINER -->
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
+    <!--/*@thymesVar id="preferences" type="com.crud.finalbackend.domain.dto.PreferenceListDto"*/-->
+    <tr th:each="preference : ${preferences}"><!--/*@thymesVar id="preference" type="com.crud.finalbackend.domain.dto.PreferenceDto"*/-->
+        <td><span th:text="${preference.getId()}"/></td>
+        <td><span th:text="${preference.getTrailBegin()}"/></td>
+        <td><span th:text="${preference.getTrailEnd()}"/></td>
+        <td><span th:text="${preference.getDistance()}"/></td>
+        <td><span th:text="${preference.getMinTemperature()}"/></td>
+    </tr>
+</table>
+
+</body>
+</html>

@@ -1,5 +1,6 @@
 package com.crud.finalbackend.domain.dto;
 
+import com.crud.finalbackend.domain.Preference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
