@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface PreferenceRepository extends CrudRepository<Preference, Long> {
+public interface PreferredRepository extends CrudRepository<Preference, Long> {
 
     @Override
     Preference save(Preference preference);

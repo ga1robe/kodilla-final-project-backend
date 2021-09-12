@@ -2,7 +2,6 @@ package com.crud.finalbackend.service;
 
 import com.crud.finalbackend.domain.Preference;
 import com.crud.finalbackend.domain.User;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -22,7 +21,7 @@ class UserServiceTestSuite {
     @Autowired
     private UserService userService;
     @Autowired
-    private PreferenceService preferenceService;
+    private PreferredService preferredService;
 
     @Test
     public void testAddUser() {
@@ -317,14 +316,14 @@ class UserServiceTestSuite {
                 .distance(BigInteger.valueOf(14_858))
                 .user(testUserThree)
                 .build();
-        preferenceService.addPreference(testPreferenceOne);
-        preferenceService.addPreference(testPreferenceTwo);
-        preferenceService.addPreference(testPreferenceThree);
+        preferredService.addPreference(testPreferenceOne);
+        preferredService.addPreference(testPreferenceTwo);
+        preferredService.addPreference(testPreferenceThree);
 
         //When
         userService.deleteUserById(testUserOne.getId());
         int userNumber = userService.getAllUsers().size();
-        int preferenceNumber = preferenceService.getAllPreferences().size();
+        int preferenceNumber = preferredService.getAllPreferences().size();
 
         //Then
         assertEquals(2, userNumber);

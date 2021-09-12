@@ -24,7 +24,8 @@ public class EmailCreatorService {
 
         Context context = new Context();
         context.setVariable("message", message);
-        context.setVariable("portal_url", "http://localhost:8080/seasonaltrails/preferences"); //TODO. checking and change.
+//        context.setVariable("portal_url", "http://localhost:8080/seasonaltrails/preferences"); //TODO. checking and change.
+        context.setVariable("portal_url", "http://localhost:8080/seasonaltrails/users"); //TODO. checking and change.
         context.setVariable("button", "Visit website");
         context.setVariable("goodbye_message", "Have a nice day");
         context.setVariable("show_button", true);

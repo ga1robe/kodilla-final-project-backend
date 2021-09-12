@@ -10,9 +10,10 @@ import java.math.BigInteger;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class PreferenceDto {
+public class PreferredDto {
     private Long id;
-    private UserDto userDto;
+//    private UserDto userDto;
+    private Long userId;
     private String trailBegin;
     private String trailEnd;
     private BigInteger distance;

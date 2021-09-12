@@ -3,7 +3,7 @@ package com.crud.finalbackend.service;
 import com.crud.finalbackend.domain.Preference;
 import com.crud.finalbackend.domain.User;
 import com.crud.finalbackend.except.PreferenceNotFoundException;
-import com.crud.finalbackend.repository.PreferenceRepository;
+import com.crud.finalbackend.repository.PreferredRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,8 +16,8 @@ import java.util.Objects;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class PreferenceService {
-    private final PreferenceRepository preferenceRepository;
+public class PreferredService {
+    private final PreferredRepository preferredRepository;
     private final UserService userService;
 
     /**
@@ -28,17 +28,17 @@ public class PreferenceService {
      */
     @Transactional
     public Preference addPreference(Preference preference) {
-        preferenceRepository.save(preference);
+        preferredRepository.save(preference);
         preference.getUser().getPreferences().add(preference);
         return preference;
     }
 
     public Preference getPreferenceById(Long id) {
-        return preferenceRepository.findById(id).orElseThrow(PreferenceNotFoundException::new);
+        return preferredRepository.findById(id).orElseThrow(PreferenceNotFoundException::new);
     }
 
     public List<Preference> getAllPreferences() {
-        return preferenceRepository.findAll();
+        return preferredRepository.findAll();
     }
 
     /**
@@ -48,7 +48,7 @@ public class PreferenceService {
      * @return
      */
     public List<Preference> getAllPreferencesByTrailBegin(String trailBegin) {
-        return preferenceRepository.findAllByTrailBegin(trailBegin);
+        return preferredRepository.findAllByTrailBegin(trailBegin);
     }
 
     /**
@@ -58,7 +58,7 @@ public class PreferenceService {
      * @return
      */
     public List<Preference> getAllPreferencesByTrailEnd(String trailEnd) {
-        return preferenceRepository.findAllByTrailEnd(trailEnd);
+        return preferredRepository.findAllByTrailEnd(trailEnd);
     }
 
     /**
@@ -70,7 +70,7 @@ public class PreferenceService {
      */
     public List<Preference> getAllPreferencesByUser(User user) {
         if( userService.exists(user) ) {
-            return preferenceRepository.findAllByUser(user);
+            return preferredRepository.findAllByUser(user);
         }else {
             log.error("Attempting to load preferences of unsaved User: returning empty list");
             return new ArrayList<>();
@@ -110,7 +110,7 @@ public class PreferenceService {
         if(Objects.nonNull( preference.getUser() )) {
             preference.getUser().removePreference(preference);
         } else {
-            preferenceRepository.deleteById(id);
+            preferredRepository.deleteById(id);
         }
     }
 }

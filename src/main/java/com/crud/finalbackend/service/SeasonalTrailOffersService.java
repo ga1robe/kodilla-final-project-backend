@@ -28,7 +28,7 @@ import java.util.*;
 @AllArgsConstructor
 public class SeasonalTrailOffersService {
     private final TrailSearchRequestService requestService;
-    private final PreferenceService notificationPreferenceService;
+    private final PreferredService notificationPreferredService;
     private final HereApiFacade hereApiFacade;
     private final WeatherClientFacade weatherClientFacade;
 
@@ -134,7 +134,7 @@ public class SeasonalTrailOffersService {
     public Set<HikingTrailRequest> getAllSearchRequests() {
         Set<HikingTrailRequest> uniqueSearchRequestsForPreferenfces = new HashSet<>();
 
-        List<Preference> allPreferences = notificationPreferenceService.getAllPreferences();
+        List<Preference> allPreferences = notificationPreferredService.getAllPreferences();
         Set<String> trails = getAllTrailsFromPreferences(allPreferences);
         Map<String, List<Double>> trailsAndPoints = getPointGeocodeForPreferredTrails(trails);
 
@@ -171,7 +171,7 @@ public class SeasonalTrailOffersService {
      */
     public Map<String, Double> getWeatherForDestinationTrails() {
         Map<String, Double> averageTemperaturesForDestinationTrails = new HashMap<>();
-        getAllTrailsFromPreferences( notificationPreferenceService.getAllPreferences() ).forEach(
+        getAllTrailsFromPreferences( notificationPreferredService.getAllPreferences() ).forEach(
                 e -> averageTemperaturesForDestinationTrails.put(e, getWeekendAverageTemperature(e))
         );
         return averageTemperaturesForDestinationTrails;
@@ -221,7 +221,7 @@ public class SeasonalTrailOffersService {
     public Map<Preference, TrailOffer> getPreferencesAndOffers() {
         log.info("Matching preferences with avaiable connections...");
         Map<Preference, TrailOffer> preferencesAndOffers = new HashMap<>();
-        List<Preference> preferences = notificationPreferenceService.getAllPreferences();
+        List<Preference> preferences = notificationPreferredService.getAllPreferences();
         List<HikingTrailConnectionWithWeather> offers = getAllHikingTrailOffersWithExpectedWeather();
 
         for(Preference preference : preferences) {

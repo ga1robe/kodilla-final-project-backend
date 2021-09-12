@@ -17,15 +17,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
-class PreferenceServiceTestSuite {
+class PreferredServiceTestSuite {
     @Autowired
-    private PreferenceService preferenceService;
+    private PreferredService preferredService;
     @Autowired
     private UserService userService;
 
     @Before("")
     public void cleanUp() {
-        preferenceService.deleteAllPreferences();
+        preferredService.deleteAllPreferences();
         userService.deleteAllUsers();
     }
 
@@ -51,9 +51,9 @@ class PreferenceServiceTestSuite {
                 .build();
 
         //When
-        preferenceService.addPreference(testPreference);
+        preferredService.addPreference(testPreference);
         Long id = testPreference.getId();
-        Preference result = preferenceService.getPreferenceById(id);
+        Preference result = preferredService.getPreferenceById(id);
 
         //Then
         assertEquals(testPreference.getId(), result.getId());

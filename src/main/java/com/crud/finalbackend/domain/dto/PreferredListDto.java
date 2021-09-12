@@ -1,6 +1,5 @@
 package com.crud.finalbackend.domain.dto;
 
-import com.crud.finalbackend.domain.Preference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -10,6 +9,6 @@ import java.util.List;
 @AllArgsConstructor
 @NotNull
 @Getter
-public class PreferenceListDto {
-    private List<PreferenceDto> preferences;
+public class PreferredListDto {
+    private List<PreferredDto> preferredDtoList;
 }

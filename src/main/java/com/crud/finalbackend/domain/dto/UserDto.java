@@ -16,5 +16,5 @@ public class UserDto {
     private String email;
     private String securePassword;
     private String registered;
-    private Set<Long> notificationIds;
+    private Set<Long> preferenceIds;
 }

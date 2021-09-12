@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User - Template</title>
+</head>
+<body>
+
+<table>
+    <!--/*@thymesVar id="UserListDto" type="com.crud.finalbackend.domain.dto.UserListDto"*/-->
+    <tr th:each="user : ${UserListDto.getUsers()}">
+        <!--/*@thymesVar id="user" type="com.crud.finalbackend.domain.dto.UserDto"*/-->
+        <td><span th:text="${user.getId()}"/></td>
+        <td><span th:text="${user.getName()}"/></td>
+        <td><span th:text="${user.getSurname()}"/></td>
+        <td><span th:text="${user.getEmail()}"/></td>
+        <td><span th:text="${user.getRegistered()}"/></td>
+        <td><span th:text="${user.getNotificationIds()}"/></td>
+    </tr>
+</table>
+
+</body>
+</html>
