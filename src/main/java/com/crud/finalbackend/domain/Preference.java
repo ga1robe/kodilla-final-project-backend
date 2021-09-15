@@ -5,7 +5,6 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -58,9 +57,4 @@ public class Preference {
         Preference that = (Preference) o;
         return Objects.equals(getId(), that.getId()) && Objects.equals(getUser(), that.getUser()) && Objects.equals(getTrailBegin(), that.getTrailBegin()) && Objects.equals(getTrailEnd(), that.getTrailEnd()) && Objects.equals(getDistance(), that.getDistance()) && Objects.equals(getMinTemperature(), that.getMinTemperature());
     }
-
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(getId(), getUser(), getTrailBegin(), getTrailEnd(), getDistance(), getMinTemperature());
-//    }
 }

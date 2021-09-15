@@ -22,7 +22,7 @@ class WeatherClientFacadeTestSuite {
 
         //Then
         assertNotNull(testForecast);
-        assertEquals("Kampinos", testForecast.getCity());
+        assertEquals("Kampinos", testForecast.getPoint());
         assertEquals(16, testForecast.getDailyForecasts().size());
         System.out.println( testForecast.getDailyForecasts().get(3).toString() );
     }

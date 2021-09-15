@@ -2,39 +2,43 @@ package com.crud.finalbackend.domain;
 
 import lombok.*;
 
-import java.math.BigDecimal;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
-import java.time.LocalDate;
-import java.util.List;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@Entity
+@Table(name="TRAILS")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder(toBuilder = true)
 public class Trail {
-    private String name;
-    private String begin;
-    private String end;
-    private Integer distance;
-    private BigInteger totalApproaches;
-    private BigInteger totalDepartures;
-    private Integer transmissionTime;
-    private List<String> points;
-    private String trailColor;
+    @Id
+    @NotNull
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-    @Override
-    public String toString() {
-        return "Hiking Trail{" +
-                "NAME='" + name + '\'' +
-                "BEGINNING='" + begin + '\'' +
-                ", END='" + end + '\'' +
-                ", DISTANCE=" + distance + " km" +
-                ", TOTAL APPROACHES=" + totalApproaches + " m" +
-                ", TOTAL DEPARTURES=" + totalDepartures + " m" +
-                ", TRANSMISSION TIME=" + transmissionTime + " hours" +
-                "POINTS ON TRAIL=" + String.join(",", points) +
-                ", COLOR OF TRAIL=" + trailColor +
-                '}';
-    }
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name="USER_ID")
+    private User user;
+
+    @NotNull
+    private String trailBegin;
+
+    @NotNull
+    private String trailEnd;
+
+    @NotNull
+    private String trailType;
+
+    @NotNull
+    private Boolean chargeStatus;
+
+    @NotNull
+    private BigInteger distance;
+
+    @NotNull
+    private Integer minTemperature;
 }

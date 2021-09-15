@@ -10,5 +10,5 @@ import java.util.List;
 @NotNull
 @Getter
 public class ChargeListDto {
-    private List<ChargeDto> payments;
+    private List<ChargeDto> charges;
 }

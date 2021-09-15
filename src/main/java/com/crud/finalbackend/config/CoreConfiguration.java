@@ -22,12 +22,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 @EnableScheduling
 @EnableSwagger2
 @Configuration
-//@EnableWebMvc
+@EnableWebMvc
 public class CoreConfiguration implements WebMvcConfigurer {
 
     @Override
@@ -51,11 +50,6 @@ public class CoreConfiguration implements WebMvcConfigurer {
         return factory -> factory.setContextPath("/seasonaltrails"); // seasonal Hiking Trails
     }
 
-//    @Bean
-//    public RestTemplate restTemplate() {
-//        return new RestTemplate();
-//    }
-
     @Bean
     public RestTemplate restTemplate() {
         final RestTemplate restTemplate = new RestTemplate();
@@ -63,7 +57,6 @@ public class CoreConfiguration implements WebMvcConfigurer {
         List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
         converter.setSupportedMediaTypes(Collections.singletonList(MediaType.ALL));
-//        converter.setSupportedMediaTypes(Collections.singletonList(MediaType.APPLICATION_JSON));
         messageConverters.add(converter);
         restTemplate.setMessageConverters(messageConverters);
 

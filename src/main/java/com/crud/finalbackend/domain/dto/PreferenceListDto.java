@@ -9,6 +9,6 @@ import java.util.List;
 @AllArgsConstructor
 @NotNull
 @Getter
-public class PreferredListDto {
-    private List<PreferredDto> preferredDtoList;
+public class PreferenceListDto {
+    private List<PreferenceDto> preferenceDtoList;
 }

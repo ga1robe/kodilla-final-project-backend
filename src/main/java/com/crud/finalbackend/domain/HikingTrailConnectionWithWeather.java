@@ -6,23 +6,21 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
-
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class HikingTrailConnectionWithWeather {
-    private HikingTrail trail;
+    private Preference preference;
     private BigDecimal expectedTemperature;
 
-//    @Override
     public int compareTo(HikingTrailConnectionWithWeather other) {
-        return this.getTrail().getDistance().compareTo(other.getTrail().getDistance());
+        return this.getPreference().getDistance().compareTo(other.getPreference().getDistance());
     }
 
     @Override
     public String toString() {
         return "TrailOfferConnectionWithWeather{" +
-                "hiking trail=" + trail +
+                "hiking trail=" + preference +
                 ", expectedTemperature=" + expectedTemperature +
                 '}';
     }

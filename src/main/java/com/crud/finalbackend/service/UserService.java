@@ -17,7 +17,6 @@ import java.util.List;
 @AllArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-    private final ServiceUsageRecordService recordService;
 
     /**
      * Method checks if in database already exists user with email provided as @param
@@ -51,14 +50,6 @@ public class UserService {
         if( this.exists(user) ) {
             throw new UserEmailAlreadyExistsException();
         }
-
-        ServiceUsageRecord record = ServiceUsageRecord.builder()
-                .id(user.getId())
-                .whenExecuted(LocalDateTime.now())
-                .serviceClass(this.getClass().getName())
-                .methodArgument("user")
-                .build();
-        recordService.addRecord(record);
 
         return userRepository.save(user);
     }

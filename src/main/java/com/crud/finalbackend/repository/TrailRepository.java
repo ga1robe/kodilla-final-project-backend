@@ -1,6 +1,6 @@
 package com.crud.finalbackend.repository;
 
-import com.crud.finalbackend.domain.Preference;
+import com.crud.finalbackend.domain.Trail;
 import com.crud.finalbackend.domain.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -9,13 +9,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface PreferredRepository extends CrudRepository<Preference, Long> {
+public interface TrailRepository extends CrudRepository<Trail, Long> {
 
     @Override
-    Preference save(Preference preference);
+    Trail save(Trail trail);
 
     @Override
-    List<Preference> findAll();
+    List<Trail> findAll();
 
     @Override
     void deleteAll();
@@ -24,13 +24,13 @@ public interface PreferredRepository extends CrudRepository<Preference, Long> {
     void deleteById(Long id);
 
     @Override
-    Optional<Preference> findById(Long id);
+    Optional<Trail> findById(Long id);
 
     void deleteAllByUser(User user);
 
-    List<Preference> findAllByTrailBegin(String trailBegin);
+    List<Trail> findAllByTrailBegin(String trailBegin);
 
-    List<Preference> findAllByTrailEnd(String trailEnd);
+    List<Trail> findAllByTrailEnd(String trailEnd);
 
-    List<Preference> findAllByUser(User user);
+    List<Trail> findAllByUser(User user);
 }

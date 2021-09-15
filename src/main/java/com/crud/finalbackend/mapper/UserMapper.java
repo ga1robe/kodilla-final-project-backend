@@ -3,10 +3,10 @@ package com.crud.finalbackend.mapper;
 
 import com.crud.finalbackend.domain.Preference;
 import com.crud.finalbackend.domain.User;
-import com.crud.finalbackend.domain.dto.PreferredDto;
+import com.crud.finalbackend.domain.dto.PreferenceDto;
 import com.crud.finalbackend.domain.dto.UserDto;
-import com.crud.finalbackend.domain.dto.UserRegistrationDto;
-import com.crud.finalbackend.service.PreferredService;
+import com.crud.finalbackend.domain.dto.UserRegisterDto;
+import com.crud.finalbackend.service.PreferenceService;
 import com.crud.finalbackend.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -19,10 +19,10 @@ import java.util.stream.Collectors;
 @Component
 @AllArgsConstructor
 public class UserMapper {
-    private final PreferredService preferredService;
+    private final PreferenceService preferenceService;
     private final UserService userService;
 
-    public User mapRegistrationDtoToUser(final UserRegistrationDto dto) {
+    public User mapRegistrationDtoToUser(final UserRegisterDto dto) {
         return User.builder()
                 .name( dto.getName() )
                 .surname( dto.getSurname() )
@@ -43,7 +43,7 @@ public class UserMapper {
                 .securePassword( dto.getSecurePassword() )
                 .preferences(
                         dto.getPreferenceIds().stream()
-                                .map(preferredService::getPreferenceById)
+                                .map(preferenceService::getPreferenceById)
                                 .collect(Collectors.toSet())
 
                 )
@@ -80,9 +80,9 @@ public class UserMapper {
     }
 
 
-    public List<PreferredDto> mapToPrefrenceDtoList(final List<Preference> preferenceList, PreferredMapper preferredMapper) {
+    public List<PreferenceDto> mapToPrefrenceDtoList(final List<Preference> preferenceList, PreferenceMapper preferenceMapper) {
         return preferenceList.stream()
-                .map(preferredMapper::mapToPreferenceDto)
+                .map(preferenceMapper::mapToPreferenceDto)
                 .collect(Collectors.toList());
     }
 }

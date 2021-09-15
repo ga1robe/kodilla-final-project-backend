@@ -1,6 +1,5 @@
 package com.crud.finalbackend.domain;
 
-import com.crud.finalbackend.service.ServiceUsageRecordService;
 import lombok.*;
 
 import javax.persistence.*;

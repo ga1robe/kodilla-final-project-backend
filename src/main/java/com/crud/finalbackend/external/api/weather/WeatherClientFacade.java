@@ -11,7 +11,7 @@ public class WeatherClientFacade {
     private final WeatherClient weatherClient;
     private final WeatherForecastMapper weatherForecastMapper;
 
-    public WeatherForecast getWeatherForecast(String city) {
-        return weatherForecastMapper.mapToWeatherForecast( weatherClient.getWeatherForecast(city) );
+    public WeatherForecast getWeatherForecast(String point) {
+        return weatherForecastMapper.mapToWeatherForecast( weatherClient.getWeatherForecast(point) );
     }
 }

@@ -1,13 +1,9 @@
 package com.crud.finalbackend.domain;
 
 import com.crud.finalbackend.config.AdminConfig;
-import com.crud.finalbackend.scheduler.PreferencesScheduler;
-import com.crud.finalbackend.service.MailSentRecordService;
 import com.crud.finalbackend.service.SeasonalTrailOffersService;
-import com.crud.finalbackend.service.SimpleEmailService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,27 +14,18 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
-import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 class TrailOfferTest {
-//    @InjectMocks
-//    private PreferencesScheduler preferencesScheduler;
-//    @Mock
-//    private MailSentRecordService mailSentRecordService;
     @Mock
     private AdminConfig adminConfig;
-//    @Mock
-//    private SimpleEmailService simpleEmailService;
     @Mock
     private SeasonalTrailOffersService seasonalTrailOffers;
 
     @Test
-    void getThereHikingTrail() {
+    void testThereHikingTrail() {
         //Given
         User testUser = User.builder()
                 .email("test@test.com")
@@ -97,5 +84,35 @@ class TrailOfferTest {
         //When
         //Then
         assertEquals(BigInteger.TEN, testOffer.getTotalDistance());
+    }
+
+    @Test
+    void test2ThereHikingTrails() {
+        //Given
+        User testUser = User.builder()
+                .email("test@test.com")
+                .build();
+        Preference testPreference1 = Preference.builder()
+                .user(testUser)
+                .build();
+        Preference testPreference2 = Preference.builder()
+                .user(testUser)
+                .build();
+        TrailOffer testOffer1 = new TrailOffer();
+        TrailOffer testOffer2 = new TrailOffer();
+        testOffer1.setTotalDistance( BigInteger.TEN );
+        testOffer2.setTotalDistance( BigInteger.TEN );
+        testOffer1.setReturnHikingTrail( new HikingTrailConnectionWithWeather() );
+        testOffer2.setReturnHikingTrail( new HikingTrailConnectionWithWeather() );
+        testOffer1.setThereHikingTrail( new HikingTrailConnectionWithWeather() );
+        testOffer2.setThereHikingTrail( new HikingTrailConnectionWithWeather() );
+        Map<Preference, TrailOffer> testMap1 = new HashMap<>();
+        Map<Preference, TrailOffer> testMap2 = new HashMap<>();
+        testMap1.put(testPreference1, testOffer1);
+        testMap2.put(testPreference2, testOffer2);
+
+        //When
+        //Then
+        assertEquals(false, testMap1.equals(testMap2));
     }
 }

@@ -21,7 +21,7 @@ class UserServiceTestSuite {
     @Autowired
     private UserService userService;
     @Autowired
-    private PreferredService preferredService;
+    private PreferenceService preferenceService;
 
     @Test
     public void testAddUser() {
@@ -316,14 +316,14 @@ class UserServiceTestSuite {
                 .distance(BigInteger.valueOf(14_858))
                 .user(testUserThree)
                 .build();
-        preferredService.addPreference(testPreferenceOne);
-        preferredService.addPreference(testPreferenceTwo);
-        preferredService.addPreference(testPreferenceThree);
+        preferenceService.addPreference(testPreferenceOne);
+        preferenceService.addPreference(testPreferenceTwo);
+        preferenceService.addPreference(testPreferenceThree);
 
         //When
         userService.deleteUserById(testUserOne.getId());
         int userNumber = userService.getAllUsers().size();
-        int preferenceNumber = preferredService.getAllPreferences().size();
+        int preferenceNumber = preferenceService.getAllPreferences().size();
 
         //Then
         assertEquals(2, userNumber);

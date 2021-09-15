@@ -8,7 +8,6 @@ import com.crud.finalbackend.domain.dto.HikingTrailDto;
 import com.crud.finalbackend.domain.dto.LocationDto;
 import com.crud.finalbackend.except.UnableToGetWeatherForecastException;
 import com.crud.finalbackend.external.api.hereApi.HereApiFacade;
-import com.crud.finalbackend.domain.HikingTrail;
 import com.crud.finalbackend.external.api.weather.WeatherClientFacade;
 import com.crud.finalbackend.external.api.weather.domain.DailyWeatherForecast;
 import lombok.AllArgsConstructor;
@@ -28,7 +27,7 @@ import java.util.*;
 @AllArgsConstructor
 public class SeasonalTrailOffersService {
     private final TrailSearchRequestService requestService;
-    private final PreferredService notificationPreferredService;
+    private final PreferenceService preferenceService;
     private final HereApiFacade hereApiFacade;
     private final WeatherClientFacade weatherClientFacade;
 
@@ -134,7 +133,7 @@ public class SeasonalTrailOffersService {
     public Set<HikingTrailRequest> getAllSearchRequests() {
         Set<HikingTrailRequest> uniqueSearchRequestsForPreferenfces = new HashSet<>();
 
-        List<Preference> allPreferences = notificationPreferredService.getAllPreferences();
+        List<Preference> allPreferences = preferenceService.getAllPreferences();
         Set<String> trails = getAllTrailsFromPreferences(allPreferences);
         Map<String, List<Double>> trailsAndPoints = getPointGeocodeForPreferredTrails(trails);
 
@@ -171,7 +170,7 @@ public class SeasonalTrailOffersService {
      */
     public Map<String, Double> getWeatherForDestinationTrails() {
         Map<String, Double> averageTemperaturesForDestinationTrails = new HashMap<>();
-        getAllTrailsFromPreferences( notificationPreferredService.getAllPreferences() ).forEach(
+        getAllTrailsFromPreferences( preferenceService.getAllPreferences() ).forEach(
                 e -> averageTemperaturesForDestinationTrails.put(e, getWeekendAverageTemperature(e))
         );
         return averageTemperaturesForDestinationTrails;
@@ -181,8 +180,8 @@ public class SeasonalTrailOffersService {
         return hereApiFacade.getPointGeocode(query);
     }
 
-    public List<HikingTrail> getAllPreferences() {
-        List<HikingTrail> result = new ArrayList<>();
+    public List<Preference> getAllPreferences() {
+        List<Preference> result = new ArrayList<>();
         Set<HikingTrailRequest> requests = this.getAllSearchRequests();
         log.info("Hiking Trail search requests number: " + requests.size());
 
@@ -200,13 +199,13 @@ public class SeasonalTrailOffersService {
     public List<HikingTrailConnectionWithWeather> getAllHikingTrailOffersWithExpectedWeather() {
         List<HikingTrailConnectionWithWeather> result = new ArrayList<>();
 
-        List<HikingTrail> hikingTrails = this.getAllPreferences();
+        List<Preference> hikingTrails = this.getAllPreferences();
         Map<String, Double> weather = this.getWeatherForDestinationTrails();
 
-        for(HikingTrail hikingTrail : hikingTrails) {
-            BigDecimal temperature =  BigDecimal.valueOf(weather.get(hikingTrail.getDestinationPoint())).setScale(2, RoundingMode.HALF_EVEN);
+        for(Preference preference : hikingTrails) {
+            BigDecimal temperature =  BigDecimal.valueOf(weather.get(preference.getTrailEnd())).setScale(2, RoundingMode.HALF_EVEN);
             result.add(
-                    new HikingTrailConnectionWithWeather(hikingTrail,  temperature)
+                    new HikingTrailConnectionWithWeather(preference,  temperature)
             );
         }
 
@@ -221,29 +220,29 @@ public class SeasonalTrailOffersService {
     public Map<Preference, TrailOffer> getPreferencesAndOffers() {
         log.info("Matching preferences with avaiable connections...");
         Map<Preference, TrailOffer> preferencesAndOffers = new HashMap<>();
-        List<Preference> preferences = notificationPreferredService.getAllPreferences();
+        List<Preference> preferences = preferenceService.getAllPreferences();
         List<HikingTrailConnectionWithWeather> offers = getAllHikingTrailOffersWithExpectedWeather();
 
         for(Preference preference : preferences) {
             log.info("Processing preference: " + preference);
             Optional<HikingTrailConnectionWithWeather> cheapestThereHikingTrail = offers.stream()
-                    .filter(offer -> offer.getTrail().getDestinationPoint().equals( preference.getTrailEnd().toLowerCase() )  )
-                    .filter(offer -> offer.getTrail().getDeparturePoint().equals( preference.getTrailBegin().toLowerCase() ))
+                    .filter(offer -> offer.getPreference().getTrailEnd().equals( preference.getTrailEnd().toLowerCase() )  )
+                    .filter(offer -> offer.getPreference().getTrailBegin().equals( preference.getTrailBegin().toLowerCase() ))
                     .filter(offer -> offer.getExpectedTemperature().intValue() >= preference.getMinTemperature() )
                     .min( HikingTrailConnectionWithWeather::compareTo );
 
             log.info("Chepest there connection is: " + cheapestThereHikingTrail);
 
             Optional<HikingTrailConnectionWithWeather> cheapestReturnHikingTrail = offers.stream()
-                    .filter(offer -> offer.getTrail().getDestinationPoint().equals( preference.getTrailEnd().toLowerCase() )  )
-                    .filter(offer -> offer.getTrail().getDeparturePoint().equals( preference.getTrailBegin().toLowerCase() ))
+                    .filter(offer -> offer.getPreference().getTrailEnd().equals( preference.getTrailEnd().toLowerCase() )  )
+                    .filter(offer -> offer.getPreference().getTrailBegin().equals( preference.getTrailBegin().toLowerCase() ))
                     .min( HikingTrailConnectionWithWeather::compareTo );
             log.info("Chepest return connection is: " + cheapestReturnHikingTrail);
 
             if( cheapestReturnHikingTrail.isPresent() && cheapestThereHikingTrail.isPresent() ) {
                 HikingTrailConnectionWithWeather thereHikingTrail = cheapestThereHikingTrail.get();
                 HikingTrailConnectionWithWeather returnHikingTrail = cheapestReturnHikingTrail.get();
-                BigInteger totalDistance = thereHikingTrail.getTrail().getDistance().add(returnHikingTrail.getTrail().getDistance());
+                BigInteger totalDistance = thereHikingTrail.getPreference().getDistance().add(returnHikingTrail.getPreference().getDistance());
 
                 /**
                  * If total cost of both hiking trails (there and return) is lower or equal to max price declared in preference

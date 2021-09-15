@@ -1,6 +1,5 @@
 package com.crud.finalbackend.domain.dto;
 
-import com.crud.finalbackend.domain.User;
 import lombok.*;
 
 import java.math.BigInteger;
@@ -10,9 +9,8 @@ import java.math.BigInteger;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class PreferredDto {
+public class PreferenceDto {
     private Long id;
-//    private UserDto userDto;
     private Long userId;
     private String trailBegin;
     private String trailEnd;

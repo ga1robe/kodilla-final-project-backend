@@ -12,6 +12,6 @@ import java.util.List;
 @Getter
 @Builder(toBuilder = true)
 public class WeatherForecast {
-    private String city;
+    private String point;
     private List<DailyWeatherForecast> dailyForecasts;
 }

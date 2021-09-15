@@ -22,11 +22,6 @@ public class ChargeController {
     private final ChargeService chargeService;
     private final ChargeMapper chargeMapper;
 
-    @PostMapping("charges")
-    public void addPayment(@RequestBody ChargeDto dto) {
-        chargeService.addCharge( chargeMapper.mapToCharge(dto) );
-    }
-
     @GetMapping("charges/{id}")
     public ChargeDto getCharge(@PathVariable("id") Long id) {
         return chargeMapper.mapToDto( chargeService.getChargeById(id) );

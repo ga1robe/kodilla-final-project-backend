@@ -16,19 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 public class ChargeService {
     private final ChargeRepository chargeRepository;
-    private final ServiceUsageRecordService recordService;
-
-    @Transactional
-    public Charge addCharge(final Charge charge) {
-        ServiceUsageRecord record = ServiceUsageRecord.builder()
-                .whenExecuted(LocalDateTime.now())
-                .serviceClass(this.getClass().getName())
-                .methodArgument("charge")
-                .build();
-        recordService.addRecord(record);
-
-        return chargeRepository.save(charge);
-    }
 
     public Charge getChargeById(final Long id) {
         return chargeRepository.findById(id).orElseThrow(ChargeNotFoundException::new);

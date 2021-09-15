@@ -16,6 +16,6 @@ public class WeatherForecastDto {
     @JsonProperty("data")
     private List<DailyWeatherForecastDto> weatherForecasts;
 
-    @JsonProperty("city_name")
-    private String city;
+    @JsonProperty("point_name")
+    private String point;
 }

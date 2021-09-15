@@ -12,7 +12,7 @@ public class WeatherForecastMapper {
 
     public WeatherForecast mapToWeatherForecast(WeatherForecastDto dto) {
         return WeatherForecast.builder()
-                .city( dto.getCity() )
+                .point( dto.getPoint() )
                 .dailyForecasts( dailyWeatherForecastMapper.mapToDailyWeatherForecastList( dto.getWeatherForecasts() ) )
                 .build();
     }

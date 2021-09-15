@@ -3,18 +3,15 @@ package com.crud.finalbackend.controler;
 import com.crud.finalbackend.domain.User;
 import com.crud.finalbackend.domain.dto.UserDto;
 import com.crud.finalbackend.domain.dto.UserListDto;
-import com.crud.finalbackend.domain.dto.UserRegistrationDto;
+import com.crud.finalbackend.domain.dto.UserRegisterDto;
 import com.crud.finalbackend.mapper.UserMapper;
-import com.crud.finalbackend.repository.ChargeRepository;
 import com.crud.finalbackend.repository.UserRepository;
 import com.crud.finalbackend.service.UserService;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.transaction.Transactional;
-import java.util.Scanner;
 
 @RestController
 @RequestMapping
@@ -25,7 +22,7 @@ public class UserController {
     private final UserRepository userRepository;
 
     @PostMapping("users")
-    public void registerUser(@RequestBody UserRegistrationDto dto) {
+    public void registerUser(@RequestBody UserRegisterDto dto) {
         userService.addUser( userMapper.mapRegistrationDtoToUser(dto) );
     }
 
